@@ -1,0 +1,89 @@
+<div class="wrapper">
+    <app-navbar></app-navbar>
+    <app-sidebar></app-sidebar>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Danh mục sản phẩm</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a [routerLink]="['']">Trang chủ</a></li>
+                            <li class="breadcrumb-item active">Danh mục sản phẩm</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Danh sách danh mục</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <a [routerLink]="['/category/new']" class="btn btn-success mb-2">Thêm mới</a>
+                                <table id="example2" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Ảnh bìa</th>
+                                            <th>Tên</th>
+                                            <th>Danh mục cha</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let category of categoryListData; let i=index">
+                                            <td>{{i}}</td>
+                                            <td style="width: 18%;"><img *ngIf="category.image != null" [src]="category.image.imageUrl"
+                                                    alt="" style="max-width: 70%;">
+                                                <img *ngIf="category.image == null"
+                                                    src="https://t3.ftcdn.net/jpg/05/62/05/12/360_F_562051283_m5uNbG6GNbSWSv6thCxvegPaprT5o2hw.jpg"
+                                                    alt="" style="max-width: 70%;">
+                                            </td>
+                                            <td>{{category.name}}</td>
+                                            <td>{{category.categoryParent != null ? category.categoryParent.name :
+                                                'None'}}</td>
+                                            <td>
+                                                <a [routerLink]="['/category/update', category.id]" class="btn btn-info">Cập
+                                                    nhật</a>
+                                                <a class="btn btn-danger ml-3">Xóa</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Ảnh bìa</th>
+                                            <th>Tên</th>
+                                            <th>Danh mục cha</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <app-footer></app-footer>
+</div>

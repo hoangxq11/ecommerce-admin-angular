@@ -1,0 +1,98 @@
+<div class="wrapper">
+    <app-navbar></app-navbar>
+    <app-sidebar></app-sidebar>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <ng-container *ngIf="module == 'CREATE'; else elseTemplate">
+                            <h1 class="m-0">Thêm mới danh mục</h1>
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <h1 class="m-0">Cập nhật danh mục</h1>
+                        </ng-template>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a [routerLink]="['']">Home</a></li>
+                            <ng-container *ngIf="module == 'CREATE'; else elseTemplate1">
+                                <li class="breadcrumb-item active">Thêm mới danh mục</li>
+                            </ng-container>
+                            <ng-template #elseTemplate1>
+                                <li class="breadcrumb-item active">Cập nhật danh mục</li>
+                            </ng-template>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <!-- left column -->
+                    <div class="col-md-6">
+                        <!-- general form elements -->
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title">Thông tin danh mục</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <form>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="">Tên danh mục</label>
+                                        <input type="text" [(ngModel)]="categoryReq.name" name="name"
+                                            class="form-control" id="" placeholder="Nhập tên danh mục">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Chọn danh mục cha</label>
+                                        <select class="form-control select2bs4" style="width: 100%;">
+                                            <option
+                                                [selected]="module == 'CREATE' || categoryData.categoryParent == null">
+                                                None</option>
+                                            <option
+                                                [selected]="categoryData.categoryParent!= null && category.id == categoryData.categoryParent.id"
+                                                *ngFor="let category of categoryListData">{{category.name}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputFile">Ảnh bìa</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="exampleInputFile">
+                                                <label class="custom-file-label" for="exampleInputFile">Chọn
+                                                    file</label>
+                                            </div>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">Upload</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-info">Thêm mới</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <app-footer></app-footer>
+</div>
