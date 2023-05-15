@@ -9,12 +9,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Dashboard</h1>
+                        <h1 class="m-0">Đơn hàng</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a [routerLink]="['']">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard</li>
+                            <li class="breadcrumb-item"><a [routerLink]="['']">Trang chủ</a></li>
+                            <li class="breadcrumb-item active">Đơn hàng</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -25,7 +25,76 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Danh sách đơn hàng</h3>
+                                <div class="card-tools">
+                                    <div class="input-group input-group-sm" style="width: 150px;">
+                                        <input [(ngModel)]="billCriteria.keyWord" type="text" name="table_search" class="form-control float-right"
+                                            placeholder="Search">
+
+                                        <div class="input-group-append">
+                                            <button (click)="onSearchBill()" type="submit" class="btn btn-default">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+
+                                <table id="billTable" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Khách hàng</th>
+                                            <th>Trạng thái</th>
+                                            <th>Ngày thanh toán</th>
+                                            <th>Số sản phẩm</th>
+                                            <th>Tổng tiền</th>
+                                            <th>Phương thức thanh toán</th>
+                                            <th>Dịch vụ giao hàng</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr [routerLink]="['/order/detail', billData.id]" style="cursor: pointer;"
+                                            *ngFor="let billData of billDataList; let i=index">
+                                            <td>{{i}}</td>
+                                            <td>{{billData.address.fullName}}</td>
+                                            <td>{{billData.status == 'DONE' ? 'Giao hàng thành công' :
+                                                billData.status == 'SHIPPING' ? 'Đang vận chuyển' :
+                                                billData.status == 'CANCELED' ? 'Đã hủy' : 'Đang xử lý'}}</td>
+                                            <td>{{billData.paymentTime | date: 'dd/MM/yyyy'}}</td>
+                                            <td>{{billData.productBills.length}}</td>
+                                            <td>{{billData.totalAmount.toLocaleString().replaceAll(",",
+                                                ".")}} đ</td>
+                                            <td>{{billData.paymentMethod == 'POD' ? 'Thanh toán tiền mặt khi nhận hàng'
+                                                : 'Thanh toán bằng VNPAY'}}</td>
+                                            <td>{{billData.shippingService.name}}</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Khách hàng</th>
+                                            <th>Trạng thái</th>
+                                            <th>Ngày thanh toán</th>
+                                            <th>Số sản phẩm</th>
+                                            <th>Tổng tiền</th>
+                                            <th>Phương thức thanh toán</th>
+                                            <th>Dịch vụ giao hàng</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->

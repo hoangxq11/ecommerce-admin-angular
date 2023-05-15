@@ -9,12 +9,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Dashboard</h1>
+                        <h1 class="m-0">Khách hàng</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a [routerLink]="['']">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard</li>
+                            <li class="breadcrumb-item"><a [routerLink]="['']">Trang chủ</a></li>
+                            <li class="breadcrumb-item active">Khách hàng</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -25,7 +25,68 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Danh sách khách hàng</h3>
+                                <div class="card-tools">
+                                    <div class="input-group input-group-sm" style="width: 150px;">
+                                        <input type="text" name="table_search"
+                                            class="form-control float-right" placeholder="Search">
+
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-default">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                
+                                <table id="profileTable" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Họ tên</th>
+                                            <th>Số ĐT</th>
+                                            <th>Email</th>
+                                            <th>Tên tài khoản</th>
+                                            <th>Giới tính</th>
+                                            <th>Ngày sinh</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let profileData of profileDataList; let i=index">
+                                            <td>{{i}}</td>
+                                            <td>{{profileData.fullName}}</td>
+                                            <td>{{profileData.phoneNumber}}</td>
+                                            <td>{{profileData.accountDto.email}}</td>
+                                            <td>{{profileData.accountDto.username}}</td>
+                                            <td>{{profileData.gender}}</td>
+                                            <td>{{profileData.dateOfBirth | date:'dd/MM/yyyy'}}</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Họ tên</th>
+                                            <th>Số ĐT</th>
+                                            <th>Email</th>
+                                            <th>Tên tài khoản</th>
+                                            <th>Giới tính</th>
+                                            <th>Ngày sinh</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->

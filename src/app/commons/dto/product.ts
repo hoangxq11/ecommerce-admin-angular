@@ -8,6 +8,11 @@ export class ProductListRes implements BaseResponse {
     data!: ProductData[];
 }
 
+export class ProductRes implements BaseResponse {
+    message!: string;
+    data!: ProductData;
+}
+
 export class ListProductDetailRes implements BaseResponse {
     message!: string;
     data!: ProductDetailData[];

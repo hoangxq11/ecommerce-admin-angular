@@ -1,0 +1,63 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">Loại sản phẩm #{{productDetailData.id}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Màu sắc</label>
+                        <input type="text" [(ngModel)]="productDetailReq.colorStr" name="name" class="form-control"
+                            id="" placeholder="Màu sắc">
+                    </div>
+                    <!-- /.form-group -->
+                    <div class="form-group">
+                        <label>Kích thước</label>
+                        <input type="text" [(ngModel)]="productDetailReq.sizeStr" name="name" class="form-control" id=""
+                            placeholder="Kích thước">
+                    </div>
+                    <div class="form-group">
+                        <label>Số lượng trong kho</label>
+                        <input type="number" [(ngModel)]="productDetailReq.countInStock" name="name"
+                            class="form-control" id="" placeholder="Số lượng trong kho">
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-md-6">
+
+                    <!-- /.form-group -->
+                    <div class="form-group">
+                        <label>Giá tiền</label>
+                        <input required="" type="number" [(ngModel)]="productDetailReq.price" name="name"
+                            class="form-control" id="" placeholder="Giá tiền">
+                    </div>
+                    <!-- /.form-group -->
+                    <div class="form-group">
+                        <label>Giảm giá</label>
+                        <input type="number" [(ngModel)]="productDetailReq.discountValue" name="name"
+                            class="form-control" id="" placeholder="Giảm giá">
+                    </div>
+                    <!-- /.form-group -->
+                    <div class="form-group">
+                        <label>Ngày hết hạn</label>
+                        <input type="date" [ngModel]="productDetailReq.discountEndDate | date: 'yyyy-MM-dd'" name="date"
+                            class="form-control" id="" placeholder="Ngày hết hạn"
+                            (ngModelChange)="productDetailReq.discountEndDate = $event">
+                    </div>
+                    <!-- /.form-group -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+        </div>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" (click)="activeModal.close()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="onUpdateStatus()">Save changes</button>
+    </div>
+</div>

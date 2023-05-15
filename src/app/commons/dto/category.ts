@@ -17,3 +17,9 @@ export class CategoryData {
     name!: string;
     image!: ImageRes;
 }
+
+export class CategoryReq {
+    categoryParentId!: number;
+    name!: string;
+    imageId!: string;
+}

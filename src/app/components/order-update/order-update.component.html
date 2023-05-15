@@ -1,36 +1,57 @@
-<div class="wrapper">
-    <app-navbar></app-navbar>
-    <app-sidebar></app-sidebar>
-
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0">Dashboard</h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a [routerLink]="['']">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard</li>
-                        </ol>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content-header -->
-
-        <!-- Main content -->
-        <section class="content">
-            <div class="container-fluid">
-                
-            </div><!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">Đơn hàng #{{billData.id}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
     </div>
-    <!-- /.content-wrapper -->
-
-    <app-footer></app-footer>
+    <div class="modal-body">
+        <div class="form-group">
+            <label>Trạng thái</label>
+            <select (change)="changeStatus($event)" class="form-control">
+                <option value="DONE" [selected]="billData.status=='DONE'">Giao hàng thành công</option>
+                <option value="PENDING" [selected]="billData.status=='PENDING'">Đang xử lý</option>
+                <option value="SHIPPING" [selected]="billData.status=='SHIPPING'">Đang vận chuyển</option>
+                <option value="CANCELED" [selected]="billData.status=='CANCELED'">Hủy đơn</option>
+            </select>
+        </div>
+        <div class="card-body table-bordered table-responsive p-0">
+            <table class="table table-hover table-bordered text-nowrap">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Ảnh bìa</th>
+                        <th>Sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>Giảm giá</th>
+                        <th>Tạm tính</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let productBill of billData.productBills; let i=index">
+                        <td>{{i}}</td>
+                        <td><img [src]="productBill.productDetail.productDto.images[0].imageUrl"
+                            class="image-product"></td>
+                        <td>{{productBill.productDetail.productDto.name.length
+                            <= 60 ? productBill.productDetail.productDto.name :
+                                productBill.productDetail.productDto.name.substring(0, 60) + " ..." }}</td>
+                        <td>{{productBill.productDetail.price.toLocaleString().replaceAll(",",
+                            ".")}} ₫</td>
+                        <td>{{productBill.quantity}}</td>
+                        <td>{{(productBill.productDetail.discount.value *
+                            productBill.quantity).toLocaleString().replaceAll(",",
+                            ".")}} ₫</td>
+                        <td>{{((productBill.productDetail.price - productBill.productDetail.discount.value) *
+                            productBill.quantity).toLocaleString().replaceAll(",",
+                            ".")}} ₫</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" (click)="activeModal.close()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="onUpdateStatus()">Save changes</button>
+    </div>
 </div>

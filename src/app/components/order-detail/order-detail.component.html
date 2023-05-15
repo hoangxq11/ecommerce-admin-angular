@@ -9,12 +9,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Dashboard</h1>
+                        <h1 class="m-0">Chi tiết đơn hàng #{{billId}}</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a [routerLink]="['']">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard</li>
+                            <li class="breadcrumb-item"><a [routerLink]="['']">Trang chủ</a></li>
+                            <li class="breadcrumb-item active">Chi tiết đơn hàng</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -23,9 +23,168 @@
         <!-- /.content-header -->
 
         <!-- Main content -->
-        <section class="content">
+        <section class="content" id="pdfContent">
             <div class="container-fluid">
-                
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Main content -->
+                        <div class="invoice p-3 mb-3">
+                            <!-- title row -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4>
+                                        <i class="fas fa-globe"></i>
+                                        {{billData.status == 'DONE' ? 'Giao hàng thành công' :
+                                        billData.status == 'SHIPPING' ? 'Đang vận chuyển' :
+                                        billData.status == 'CANCELED' ? 'Đã hủy' : 'Đang xử lý'}}
+                                        <small *ngIf="billData.status == 'DONE'" class="float-right">Ngày nhận hàng:
+                                            {{receiveDate | date: 'dd/MM/yyyy'}}</small>
+                                        <small *ngIf="billData.status != 'DONE'" class="float-right">Ngày nhạn hàng dự
+                                            kiến: {{receiveDate | date: 'dd/MM/yyyy'}}</small>
+                                    </h4>
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <!-- info row -->
+                            <div class="row invoice-info">
+                                <div class="col-sm-4 invoice-col">
+                                    Địa chỉ giao hàng
+                                    <address>
+                                        <strong>Fashion store ++</strong><br>
+                                        Số 403, Tòa B2<br>
+                                        Mộ Lao, Hà Đông, Hà Nội<br>
+                                        Điện thoai: 0838978446<br>
+                                        Email: info@fashion.store.com
+                                    </address>
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-sm-4 invoice-col">
+                                    Địa chỉ nhận hàng
+                                    <address>
+                                        <strong>{{billData.address.fullName}}</strong><br>
+                                        {{billData.address.content + ', ' + billData.address.ward}}<br>
+                                        {{billData.address.district + ', ' +
+                                        billData.address.province}}<br>
+                                        Điện thoại: {{billData.address.phoneNumber}}<br>
+                                        Email: {{billData.profileDto.accountDto.email}}
+                                    </address>
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-sm-4 invoice-col">
+                                    <br>
+                                    <b>Đơn hàng #{{billData.id}}</b><br>
+                                    <b>Số sản phẩm:</b> {{billData.productBills.length}} sản phẩm<br>
+                                    <b>Ngày đặt hàng:</b> {{billData.paymentTime | date: 'dd/MM/yyyy'}}<br>
+                                    <b>Tài khoản:</b> {{billData.profileDto.accountDto.username}}
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+
+                            <!-- Table row -->
+                            <div class="row">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Ảnh bìa</th>
+                                                <th>Sản phẩm</th>
+                                                <th>Giá</th>
+                                                <th>Số lượng</th>
+                                                <th>Giảm giá</th>
+                                                <th>Tạm tính</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let productBill of billData.productBills; let i=index">
+                                                <td>{{i}}</td>
+                                                <td><img [src]="productBill.productDetail.productDto.images[0].imageUrl"
+                                                        class="image-product"></td>
+                                                <td>{{productBill.productDetail.productDto.name.length
+                                                    <= 60 ? productBill.productDetail.productDto.name :
+                                                        productBill.productDetail.productDto.name.substring(0, 60)
+                                                        + " ..." }}</td>
+                                                <td>{{productBill.productDetail.price.toLocaleString().replaceAll(",",
+                                                    ".")}} ₫</td>
+                                                <td>{{productBill.quantity}}</td>
+                                                <td>{{(productBill.productDetail.discount.value *
+                                                    productBill.quantity).toLocaleString().replaceAll(",",
+                                                    ".")}} ₫</td>
+                                                <td>{{((productBill.productDetail.price -
+                                                    productBill.productDetail.discount.value) *
+                                                    productBill.quantity).toLocaleString().replaceAll(",",
+                                                    ".")}} ₫</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+
+                            <div class="row">
+                                <!-- accepted payments column -->
+                                <div class="col-6">
+                                    <p class="lead">Phương thức thanh toán:</p>
+                                    {{billData.paymentMethod == 'POD' ? 'Thanh toán tiền mặt khi nhận hàng' : ''}}
+
+                                    <p class="lead mt-4">Hình thức vận chuyển:</p>
+                                    {{billData.shippingService.name}}
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-6">
+                                    <p class="lead ml-3">Tổng thanh toán</p>
+
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tr>
+                                                <th style="width:50%">Tạm tính:</th>
+                                                <td>{{(billData.totalAmount -
+                                                    billData.shippingService.cost).toLocaleString().replaceAll(",",
+                                                    ".")}} ₫</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Phí vận chuyển:</th>
+                                                <td>{{billData.shippingService.cost.toLocaleString().replaceAll(",",
+                                                    ".")}} đ</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Khuyến mãi vận chuyển:</th>
+                                                <td>-0 ₫</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Tổng cộng:</th>
+                                                <td>{{billData.totalAmount.toLocaleString().replaceAll(",",
+                                                    ".")}} ₫</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+
+                            <!-- this row will not appear when printing -->
+                            <div class="row no-print" id="no-print">
+                                <div class="col-12">
+                                    <a (click)="onPrint()" *ngIf="billData.status == 'DONE'" rel="noopener"
+                                        class="btn btn-info"><i class="fas fa-print"></i> Print</a>
+                                    <button (click)="generatePdf()" *ngIf="billData.status == 'DONE'" type="button"
+                                        class="btn btn-primary float-right" style="margin-right: 5px;">
+                                        <i class="fas fa-download"></i> Generate PDF
+                                    </button>
+
+                                    <button (click)="onChangeStatus()" *ngIf="billData.status != 'DONE'" type="button"
+                                        class="btn btn-info float-right" style="margin-right: 5px;">
+                                        <i class="nav-icon fas fa-edit"></i> Cập nhật trạng thái
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.invoice -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->

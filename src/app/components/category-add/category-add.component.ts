@@ -2,8 +2,9 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { CategoryData } from 'src/app/commons/dto/category';
+import { CategoryData, CategoryReq } from 'src/app/commons/dto/category';
 import { CategoryService } from 'src/app/services/category.service';
+import { ImageService } from 'src/app/services/image.service';
 
 @Component({
   selector: 'app-category-add',
@@ -13,7 +14,8 @@ import { CategoryService } from 'src/app/services/category.service';
 export class CategoryAddComponent {
 
   categoryListData!: CategoryData[];
-  categoryReq: CategoryData = new CategoryData();
+  categoryReq: CategoryReq = new CategoryReq();
+  file: File | null = null;;
 
   categoryId!: number;
   categoryData: CategoryData = new CategoryData();
@@ -25,7 +27,8 @@ export class CategoryAddComponent {
     @Inject(DOCUMENT) private _document: Document,
     private router: Router,
     private categoryService: CategoryService,
-    public toastrService: ToastrService
+    public toastrService: ToastrService,
+    private imageService: ImageService
   ) { }
 
   public ngOnInit() {
@@ -37,12 +40,12 @@ export class CategoryAddComponent {
       this.getCategoryById();
     }
     this.getAllCategory();
+    // this.generateJquery()
   }
 
   getAllCategory() {
     this.categoryService.getAllCategory().subscribe(data => {
       this.categoryListData = data.data;
-      this.generateJquery();
     }, error => {
       this.toastrService.error('Có lỗi xảy ra vui lòng thử lại sau')
     })
@@ -51,10 +54,37 @@ export class CategoryAddComponent {
   getCategoryById() {
     this.categoryService.getCategoriesById(this.categoryId).subscribe(data => {
       this.categoryData = data.data;
-      this.categoryReq = data.data;
+      this.categoryReq.name = this.categoryData.name;
+      this.categoryReq.categoryParentId = this.categoryData.categoryParent.id;
+      if (this.categoryData.image != null)
+        this.categoryReq.imageId = this.categoryData.image.id;
     }, error => {
       this.toastrService.error('Có lỗi xảy ra vui lòng thử lại sau')
     })
+  }
+
+  handleFileInput(eventTarget: any) {
+    this.file = eventTarget.files.item(0);
+  }
+
+  onCreate() {
+    if (this.file == null || this.categoryReq.name.trim() == "")
+      this.toastrService.error("Vui lòng nhập đầy đủ thông tin")
+    else {
+      this.imageService.uploadFile([this.file]).subscribe(data => {
+        this.categoryReq.imageId = data.data[0];
+        this.categoryService.createNewCategory(this.categoryReq).subscribe(data => {
+          this.toastrService.success("Thêm mới thành công")
+          this.router.navigate(['/category'])
+        }, error => {
+          this.toastrService.error('Có lỗi xảy ra vui lòng thử lại sau')
+        })
+      }, error => {
+        this.toastrService.error('Có lỗi xảy ra vui lòng thử lại sau')
+      })
+    }
+    console.log(this.file);
+    console.log(this.categoryReq)
   }
 
   generateJquery() {

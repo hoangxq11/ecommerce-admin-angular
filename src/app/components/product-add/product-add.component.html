@@ -62,8 +62,9 @@
                                 <!-- /.form-group -->
                                 <div class="form-group">
                                     <label>Danh mục sản phẩm</label>
-                                    <select class="form-control select2bs4" style="width: 100%;">
-                                        <option *ngFor="let category of categoryListData">{{category.name}}</option>
+                                    <select [(ngModel)]="productReq.categoryId" class="form-control select2" style="width: 100%;">
+                                        <option [value]="-1">Chọn danh mục sản phẩm</option>
+                                        <option [value]="category.id" *ngFor="let category of categoryListData">{{category.name}}</option>
                                     </select>
                                 </div>
                                 <!-- /.form-group -->
@@ -72,13 +73,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Chất liệu</label>
-                                    <input type="text" [(ngModel)]="material.name" name="material" class="form-control"
+                                    <input type="text" [(ngModel)]="productReq.materialStr" name="material" class="form-control"
                                         id="" placeholder="Nhập tên chất liệu">
                                 </div>
                                 <!-- /.form-group -->
                                 <div class="form-group">
                                     <label>Nhãn hiệu</label>
-                                    <input type="text" [(ngModel)]="supplier.name" name="supplier" class="form-control"
+                                    <input type="text" [(ngModel)]="productReq.supplierStr" name="supplier" class="form-control"
                                         id="" placeholder="Nhập tên nhãn hiệu">
                                 </div>
                                 <!-- /.form-group -->
@@ -91,9 +92,7 @@
                     <!-- /.card-body -->
                     <div class="card-body">
                         <label>Mô tả sản phẩm</label>
-                        <textarea id="summernote">
-                          Place <em>some</em> <u>text</u> <strong>here</strong>
-                        </textarea>
+                        <ckeditor  #myEditor [editor]="Editor" [(ngModel)]="data"></ckeditor>
                     </div>
                     <div class="card-body">
                         <label>Hình ảnh sản phẩm</label>
@@ -110,7 +109,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-info float-right">Thêm mới</button>
+                        <button (click)="onCreateNew()" type="submit" class="btn btn-info float-right">Thêm mới</button>
                     </div>
                 </div>
                 

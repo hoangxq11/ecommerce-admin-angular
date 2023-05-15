@@ -24,8 +24,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TagInputModule } from 'ngx-chips';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { DataTablesModule } from 'angular-datatables';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { ProductDetailAddComponent } from './components/product-detail-add/product-detail-add.component';
+import { ProductDetailNewComponent } from './components/product-detail-new/product-detail-new.component';
+import { ProductDetailUpdateComponent } from './components/product-detail-update/product-detail-update.component';
+import { ShippingComponent } from './components/shipping/shipping.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +50,11 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     OrderHomeComponent,
     OrderDetailComponent,
     OrderUpdateComponent,
-    StatisticalComponent
+    StatisticalComponent,
+    ProductDetailAddComponent,
+    ProductDetailNewComponent,
+    ProductDetailUpdateComponent,
+    ShippingComponent
   ],
   imports: [
     BrowserModule,
@@ -58,8 +67,9 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
       positionClass: 'toast-top-right'
     }),
     BrowserAnimationsModule,
-    TagInputModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    DataTablesModule,
+    CKEditorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

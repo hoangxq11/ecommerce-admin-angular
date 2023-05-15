@@ -13,7 +13,7 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a [routerLink]="['']">Home</a></li>
+                            <li class="breadcrumb-item"><a [routerLink]="['']">Trang chủ</a></li>
                             <li class="breadcrumb-item active">Sản phẩm</li>
                         </ol>
                     </div><!-- /.col -->
@@ -30,11 +30,23 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Danh sách sản phẩm</h3>
+                                <div class="card-tools">
+                                    <div class="input-group input-group-sm" style="width: 150px;">
+                                        <input [(ngModel)]="searchReq.keyWord" type="text" name="table_search"
+                                            class="form-control float-right" placeholder="Search">
+
+                                        <div class="input-group-append">
+                                            <button (click)="onSearch()" type="submit" class="btn btn-default">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <a [routerLink]="['/product/new']" class="btn btn-success mb-2">Thêm mới</a>
-                                <table id="example2" class="table table-bordered table-hover">
+                                <table id="datatableexample" class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
                                             <th>STT</th>
@@ -47,18 +59,21 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let productData of productListData; let i=index">
+                                        <tr style="cursor: pointer;" [routerLink]="['/product-detail', productData.id]" *ngFor="let productData of productListData; let i=index">
                                             <td>{{i}}</td>
                                             <td style="width: 18%;">
-                                                <img [src]="productData.images[0].imageUrl"
-                                                    alt="" style="width: 70%;" class="img-fluid">
+                                                <img *ngIf="productData.images.length>0" [src]="productData.images[0].imageUrl" alt="" style="width: 70%;"
+                                                    class="img-fluid">
                                             </td>
                                             <td>{{productData.name}}</td>
                                             <td>{{productData.category.name}}</td>
-                                            <td>{{productData.material != null ? productData.material.name : 'None'}}</td>
-                                            <td>{{productData.supplier != null ? productData.supplier.name : 'None'}}</td>
+                                            <td>{{productData.material != null ? productData.material.name : 'None'}}
+                                            </td>
+                                            <td>{{productData.supplier != null ? productData.supplier.name : 'None'}}
+                                            </td>
                                             <td style="width: 16%;">
-                                                <a [routerLink]="['/product/update', productData.id]" class="btn btn-info">Cập
+                                                <a [routerLink]="['/product/update', productData.id]"
+                                                    class="btn btn-info">Cập
                                                     nhật</a>
                                                 <a class="btn btn-danger ml-3">Xóa</a>
                                             </td>

@@ -1,0 +1,155 @@
+<div class="wrapper">
+    <app-navbar></app-navbar>
+    <app-sidebar></app-sidebar>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Phân loại sản phẩm #{{productData.id}}</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a [routerLink]="['']">Trang chủ</a></li>
+                            <li class="breadcrumb-item active">Phân loại sản phẩm</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+
+                <!-- SELECT2 EXAMPLE -->
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h3 class="card-title">Thông tin sản phẩm</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Tên sản phẩm</label>
+                                    <input disabled type="text" [value]="productData.name" name="name"
+                                        class="form-control" id="" placeholder="None">
+                                </div>
+                                <!-- /.form-group -->
+                                <div class="form-group">
+                                    <label>Danh mục sản phẩm</label>
+                                    <input disabled type="text" [value]="productData.category.name" name="name"
+                                        class="form-control" id="" placeholder="None">
+                                </div>
+                                <!-- /.form-group -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Chất liệu</label>
+                                    <input type="text" disabled
+                                        [value]="productData.material!= null ? productData.material.name: 'NONE'"
+                                        name="material" class="form-control" id="" placeholder="None">
+                                </div>
+                                <!-- /.form-group -->
+                                <div class="form-group">
+                                    <label>Nhãn hiệu</label>
+                                    <input type="text" disabled
+                                        [value]="productData.supplier != null ? productData.supplier.name: 'NONE'"
+                                        name="supplier" class="form-control" id="" placeholder="None">
+                                </div>
+                                <!-- /.form-group -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+
+                    </div>
+                    <!-- /.card-body -->
+
+                </div>
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h3 class="card-title">Phân loại sản phẩm</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <a (click)="onOpenModalCreate()" class="btn btn-success mb-2">Thêm mới</a>
+                        <table id="datatableexample" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Màu</th>
+                                    <th>Kích thước</th>
+                                    <th>Số lượng trong kho</th>
+                                    <th>Giá tiền</th>
+                                    <th>Giảm giá</th>
+                                    <th>Ngày hết hạn</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr (click)="onOpenModalUpdate(productDetailData)" style="cursor: pointer;"
+                                    *ngFor="let productDetailData of listProductDetailData; let i=index">
+                                    <td>{{i}}</td>
+                                    <td>{{productDetailData.color != null ? productDetailData.color.name : 'NONE'}}</td>
+                                    <td>{{productDetailData.size != null ? productDetailData.size.name : 'NONE'}}</td>
+                                    <td>{{productDetailData.countInStock}}</td>
+                                    <td>{{productDetailData.price.toLocaleString().replaceAll(",",
+                                        ".")}} đ
+                                    </td>
+                                    <td>{{productDetailData.discount!= null ?
+                                        productDetailData.discount.value.toLocaleString().replaceAll(",",
+                                        ".") + 'đ' : 'NONE'}} </td>
+                                    <td *ngIf="productDetailData.discount != null">{{productDetailData.discount.endDate
+                                        | date: 'dd/MM/yyyy'}}</td>
+                                    <td *ngIf="productDetailData.discount == null">NONE</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Màu</th>
+                                    <th>Kích thước</th>
+                                    <th>Số lượng trong kho</th>
+                                    <th>Giá tiền</th>
+                                    <th>Giảm giá</th>
+                                    <th>Ngày hết hạn</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+
+                </div>
+                <!-- /.card -->
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <app-footer></app-footer>
+</div>

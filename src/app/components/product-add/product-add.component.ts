@@ -1,11 +1,15 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, Renderer2 } from '@angular/core';
+import { Component, Inject, Renderer2, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryData } from 'src/app/commons/dto/category';
 import { ColorData, MaterialData, ProductData, ProductDetailData, SizeData, SupplierData } from 'src/app/commons/dto/product';
 import { CategoryService } from 'src/app/services/category.service';
 import { ProductService } from 'src/app/services/product.service';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CreateCustomProductReq } from 'src/app/commons/request/product.req';
+import { ChangeEvent } from '@ckeditor/ckeditor5-angular';
+import { ImageService } from 'src/app/services/image.service';
 
 @Component({
   selector: 'app-product-add',
@@ -14,14 +18,23 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ProductAddComponent {
 
+  public Editor = ClassicEditor;
+  data: string = "<p>Hello, world!</p>";
+  @ViewChild("myEditor", { static: false }) myEditor: any;
+
   categoryListData!: CategoryData[];
-  productReq: ProductData = new ProductData();
+  productReq: CreateCustomProductReq = {
+    name: "",
+    description: "",
+    categoryId: -1,
+    materialStr: "",
+    supplierStr: "",
+    imageUUIDs: []
+  };
 
   productId!: number;
   productDetailListData!: ProductDetailData[];
 
-  material: MaterialData = new MaterialData();
-  supplier: SupplierData = new SupplierData();
   sizes!: SizeData[];
   colors!: ColorData[];
 
@@ -35,6 +48,7 @@ export class ProductAddComponent {
     private router: Router,
     private categoryService: CategoryService,
     private productService: ProductService,
+    private imageService: ImageService,
     public toastrService: ToastrService
   ) { }
 
@@ -61,21 +75,49 @@ export class ProductAddComponent {
   getProductDetailList() {
     this.productService.getDataProductDetailByProductId(this.productId).subscribe(data => {
       this.productDetailListData = data.data;
-      this.productReq = this.productDetailListData[0].productDto;
     }, error => {
       this.toastrService.error('Có lỗi xảy ra vui lòng thử lại sau')
     })
   }
 
-	onSelect(event: any) {
-		console.log(event);
-		this.files.push(...event.addedFiles);
-	}
+  onSelect(event: any) {
+    console.log(event);
+    this.files.push(...event.addedFiles);
+  }
 
-	onRemove(event: any) {
-		console.log(event);
-		this.files.splice(this.files.indexOf(event), 1);
-	}
+  onRemove(event: any) {
+    console.log(event);
+    this.files.splice(this.files.indexOf(event), 1);
+  }
+
+  onCreateNew() {
+    this.productReq.description = this.data;
+    
+    if (this.validate()) {
+      if (this.files.length > 0) {
+        this.imageService.uploadFile(this.files).subscribe(data => {
+          this.productReq.imageUUIDs = data.data;
+          this.productService.createNewProduct(this.productReq).subscribe(data => {
+            this.toastrService.success('Thêm sản phẩm mới thành công')
+            this.router.navigate(['/product'])
+          }, error => {
+            this.toastrService.error('Có lỗi xảy ra vui lòng thử lại sau')
+          })
+        }, error => {
+          this.toastrService.error('Có lỗi xảy ra vui lòng thử lại sau')
+        })
+      }
+      
+    } else {
+      this.toastrService.error('Hãy nhập đầy đử thông tin')
+    }
+  }
+
+  validate() {
+    return this.productReq.name.trim() != '' && this.productReq.categoryId != -1
+      && this.productReq.description.trim() != '' && this.productReq.materialStr.trim() != ''
+      && this.productReq.supplierStr.trim() != ''
+  }
 
   generateJquery() {
     let script = this._renderer2.createElement('script');
@@ -95,12 +137,6 @@ export class ProductAddComponent {
 
           // Summernote
           $('#summernote').summernote()
-
-          // CodeMirror
-          CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
-            mode: "htmlmixed",
-            theme: "monokai"
-          });
 
         });
     `;

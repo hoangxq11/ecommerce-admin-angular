@@ -24,7 +24,7 @@ export class CategoryHomeComponent {
     this.getAllCategory();
   }
 
-  getAllCategory () {
+  getAllCategory() {
     this.categoryService.getAllCategory().subscribe(data => {
       this.categoryListData = data.data;
       this.generateTableJquery();
@@ -33,26 +33,18 @@ export class CategoryHomeComponent {
     })
   }
 
-  generateTableJquery () {
-    let script = this._renderer2.createElement('script');
-    script.text = `
-        $(function () {
-          $("#example1").DataTable({
-            "responsive": true, "lengthChange": false, "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-          }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-          $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-          });
-        });
-    `;
-
-    this._renderer2.appendChild(this._document.body, script);
+  generateTableJquery() {
+    $(function () {
+      $("#categoryTable").DataTable({
+        "responsive": true,
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": true,
+        "dom": 'Blfrtip',
+      });
+    });
   }
 }
