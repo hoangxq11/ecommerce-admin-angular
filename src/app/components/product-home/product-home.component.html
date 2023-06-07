@@ -55,27 +55,38 @@
                                             <th>Danh mục</th>
                                             <th>Chất liệu</th>
                                             <th>Nhãn hiệu</th>
+                                            <th>Trạng thái</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr style="cursor: pointer;" [routerLink]="['/product-detail', productData.id]" *ngFor="let productData of productListData; let i=index">
+                                        <tr style="cursor: pointer;"
+                                            *ngFor="let productData of productListData; let i=index">
                                             <td>{{i}}</td>
-                                            <td style="width: 18%;">
-                                                <img *ngIf="productData.images.length>0" [src]="productData.images[0].imageUrl" alt="" style="width: 70%;"
+                                            <td [routerLink]="['/product-detail', productData.id]" style="width: 18%;">
+                                                <img *ngIf="productData.images.length>0"
+                                                    [src]="productData.images[0].imageUrl" alt="" style="width: 70%;"
                                                     class="img-fluid">
                                             </td>
-                                            <td>{{productData.name}}</td>
-                                            <td>{{productData.category.name}}</td>
-                                            <td>{{productData.material != null ? productData.material.name : 'None'}}
+                                            <td [routerLink]="['/product-detail', productData.id]">{{productData.name}}
                                             </td>
-                                            <td>{{productData.supplier != null ? productData.supplier.name : 'None'}}
+                                            <td [routerLink]="['/product-detail', productData.id]">
+                                                {{productData.category.name}}</td>
+                                            <td [routerLink]="['/product-detail', productData.id]">
+                                                {{productData.material != null ? productData.material.name : 'None'}}
                                             </td>
-                                            <td style="width: 16%;">
+                                            <td [routerLink]="['/product-detail', productData.id]">
+                                                {{productData.supplier != null ? productData.supplier.name : 'None'}}
+                                            </td>
+                                            <td>{{productData.isDeleted == true ? 'Đã hủy' : 'Đang bán'}}
+                                            </td>
+                                            <td style="width: 19%;">
                                                 <a [routerLink]="['/product/update', productData.id]"
                                                     class="btn btn-info">Cập
                                                     nhật</a>
-                                                <a class="btn btn-danger ml-3">Xóa</a>
+                                                <a (click)="onDelete(productData.id)"
+                                                    class="btn btn-danger ml-1">{{productData.isDeleted ? 'Khôi phục' :
+                                                    'Xóa'}}</a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -87,6 +98,7 @@
                                             <th>Danh mục</th>
                                             <th>Chất liệu</th>
                                             <th>Nhãn hiệu</th>
+                                            <th>Trạng thái</th>
                                             <th>Action</th>
                                         </tr>
                                     </tfoot>

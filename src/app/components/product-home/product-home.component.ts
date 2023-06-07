@@ -46,6 +46,15 @@ export class ProductHomeComponent {
     })
   }
 
+  onDelete(productId: number) {
+    this.productService.deletedProduct(productId).subscribe(data => {
+      let index = this.productListData.findIndex(e => e.id == productId);
+      this.productListData[index].isDeleted = !this.productListData[index].isDeleted;
+    }, error => {
+      this.toastrService.error('Có lỗi xảy ra vui lòng thử lại sau')
+    })
+  }
+
   generateTableJquery() {
     $(function () {
       $("#datatableexample").DataTable({

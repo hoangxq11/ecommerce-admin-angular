@@ -1,0 +1,115 @@
+<div class="wrapper">
+    <app-navbar></app-navbar>
+    <app-sidebar></app-sidebar>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Cập nhật sản phẩm</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a [routerLink]="['']">Trang chủ</a></li>
+                            <li class="breadcrumb-item active">Cập nhật sản phẩm</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+
+                <!-- SELECT2 EXAMPLE -->
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h3 class="card-title">Thông tin sản phẩm</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Tên sản phẩm</label>
+                                    <input type="text" [(ngModel)]="productReq.name" name="name" class="form-control"
+                                        id="" placeholder="Nhập tên sản phẩm">
+                                </div>
+                                <!-- /.form-group -->
+                                <div class="form-group">
+                                    <label>Danh mục sản phẩm</label>
+                                    <select [(ngModel)]="productReq.categoryId" class="form-control select2"
+                                        style="width: 100%;">
+                                        <option [value]="-1">Chọn danh mục sản phẩm</option>
+                                        <option [value]="category.id" *ngFor="let category of categoryListData">
+                                            {{category.name}}</option>
+                                    </select>
+                                </div>
+                                <!-- /.form-group -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Chất liệu</label>
+                                    <input type="text" [(ngModel)]="productReq.materialStr" name="material"
+                                        class="form-control" id="" placeholder="Nhập tên chất liệu">
+                                </div>
+                                <!-- /.form-group -->
+                                <div class="form-group">
+                                    <label>Nhãn hiệu</label>
+                                    <input type="text" [(ngModel)]="productReq.supplierStr" name="supplier"
+                                        class="form-control" id="" placeholder="Nhập tên nhãn hiệu">
+                                </div>
+                                <!-- /.form-group -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-body">
+                        <label>Mô tả sản phẩm</label>
+                        <ckeditor #myEditor [editor]="Editor" [(ngModel)]="dataEditor"></ckeditor>
+                    </div>
+                    <!-- <div class="card-body">
+                        <label>Hình ảnh sản phẩm</label>
+                        <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
+                            <ngx-dropzone-label>
+                                <div>
+                                    <h2>Upload ảnh tại đây</h2>
+                                </div>
+                            </ngx-dropzone-label>
+                            <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files"
+                                [file]="f" [removable]="true" (removed)="onRemove(f)">
+                            </ngx-dropzone-image-preview>
+                        </div>
+                    </div> -->
+                    <div class="card-footer">
+                        <button (click)="onUpdate()" type="submit" class="btn btn-info float-right">Cập nhật</button>
+                    </div>
+                </div>
+
+                <!-- /.card -->
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <app-footer></app-footer>
+</div>

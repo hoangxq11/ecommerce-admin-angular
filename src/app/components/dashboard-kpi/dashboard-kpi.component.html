@@ -1,0 +1,327 @@
+<div class="wrapper">
+    <app-navbar></app-navbar>
+    <app-sidebar></app-sidebar>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Báo cáo thống kê</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a [routerLink]="['']">Trang chủ</a></li>
+                            <li class="breadcrumb-item active">Báo cáo thống kê</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>150</h3>
+
+                                <p>Đơn hàng thành công</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3>53</h3>
+
+                                <p>Đơn hàng đang giao</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-stats-bars"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3>44</h3>
+
+                                <p>Đơn hàng đang xử lý</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person-add"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3>65</h3>
+
+                                <p>Đơn hàng đã hủy</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-pie-graph"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                </div>
+                <!-- /.row -->
+                <!-- Main row -->
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <div class="form-group form-inline">
+                            <label>Ngày bắt đầu: </label>
+                            <!-- <div class="input-group date"> -->
+                            <input type="date" class="form-control datetimepicker-input" required="required"
+                                name="start_day" />
+                            <!-- </div> -->
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-inline">
+                            <label>Ngày kết thúc: </label>
+                            <!-- <div class="input-group date" data-target-input="nearest"> -->
+                            <input type="date" class="form-control datetimepicker-input" required="required"
+                                name="end_day" />
+                            <!-- </div> -->
+                        </div>
+                    </div>
+                    <div class="col-md-1 mb-4">
+                        <button (click)="onProcess()" type="submit"
+                            class="mt-2 btn btn-info float-right">Submit</button>
+
+                    </div>
+                    <div class="col-md-2 mb-4">
+                        <button (click)="generatePdf()" type="submit" class="mt-2 btn btn-info float-left">Export
+                            pdf</button>
+                    </div>
+                </div>
+                <div class="row" id="pdfContent">
+                    <div class="col-md-6">
+
+                        <!-- DONUT CHART -->
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title">Khách hàng tiềm năng</h3>
+
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <!-- <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        <i class="fas fa-times"></i>
+                                    </button> -->
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart" id="donutChart-div">
+                                    <canvas id="donutChart"
+                                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+
+
+                    </div>
+                    <!-- /.col (LEFT) -->
+                    <div class="col-md-6">
+
+
+                        <!-- BAR CHART -->
+                        <div class="card card-success">
+                            <div class="card-header">
+                                <h3 class="card-title">Doanh số bán hàng</h3>
+
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <!-- <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        <i class="fas fa-times"></i>
+                                    </button> -->
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart" id="barChart-div">
+                                    <canvas id="barChart"
+                                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col (RIGHT) -->
+                </div>
+
+                <div class="row" id="pdfContent">
+                    <div class="col-md-6">
+
+                        <!-- DONUT CHART -->
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title">Sản phẩm bán chạy</h3>
+
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <!-- <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        <i class="fas fa-times"></i>
+                                    </button> -->
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart" id="donutChart-div">
+                                    <canvas id="donutChart1"
+                                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+
+
+                    </div>
+                    <div class="col-md-6">
+
+                        <!-- DONUT CHART -->
+                        <div class="card card-danger">
+                            <div class="card-header">
+                                <h3 class="card-title">Sản phẩm bị hủy nhiều</h3>
+
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <!-- <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        <i class="fas fa-times"></i>
+                                    </button> -->
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart" id="donutChart-div">
+                                    <canvas id="donutChart2"
+                                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+
+
+                    </div>
+                </div>
+                <!-- /.row (main row) -->
+
+                <div class="row" id="pdfContent">
+                    <div class="col-md-6">
+                        <!-- BAR CHART -->
+                        <div class="card card-success">
+                            <div class="card-header">
+                                <h3 class="card-title">KPI</h3>
+
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <!-- <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        <i class="fas fa-times"></i>
+                                    </button> -->
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart" id="barChart-div">
+                                    <canvas id="barChart1"
+                                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col (LEFT) -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="ion ion-clipboard mr-1"></i>
+                                    Chiến lược đề xuất
+                                </h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <ul class="todo-list" data-widget="todo-list">
+                                    <li>
+                                        <!-- drag handle -->
+                                        <span class="handle">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </span>
+                                        <!-- todo text -->
+                                        <span class="text">Tăng cường marketing sản phẩm</span>
+                                        <!-- Emphasis label -->
+                                        <small class="badge badge-info"><i class="far fa-clock"></i> tháng kế tiếp</small>
+                                        <!-- General tools such as edit or delete-->
+                                        <div class="tools">
+                                            <i class="fas fa-edit"></i>
+                                            <i class="fas fa-trash-o"></i>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <!-- drag handle -->
+                                        <span class="handle">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </span>
+                                        <!-- todo text -->
+                                        <span class="text">Giảm giá các sản phầm tồn kho</span>
+                                        <!-- Emphasis label -->
+                                        <small class="badge badge-info"><i class="far fa-clock"></i> tháng kế tiếp</small>
+                                        <!-- General tools such as edit or delete-->
+                                        <div class="tools">
+                                            <i class="fas fa-edit"></i>
+                                            <i class="fas fa-trash-o"></i>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col (RIGHT) -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <app-footer></app-footer>
+</div>

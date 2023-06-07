@@ -39,6 +39,7 @@ export class ProductData {
     supplier!: SupplierData;
     images!: ImageRes[];
     discount!: DiscountData;
+    isDeleted!: Boolean;
 }
 
 export class MaterialData {

@@ -41,14 +41,15 @@
                                             <th>Ảnh bìa</th>
                                             <th>Tên</th>
                                             <th>Danh mục cha</th>
+                                            <th>Trạng thái</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let category of categoryListData; let i=index">
                                             <td>{{i}}</td>
-                                            <td style="width: 18%;"><img *ngIf="category.image != null" [src]="category.image.imageUrl"
-                                                    alt="" style="max-width: 70%;">
+                                            <td style="width: 18%;"><img *ngIf="category.image != null"
+                                                    [src]="category.image.imageUrl" alt="" style="max-width: 70%;">
                                                 <img *ngIf="category.image == null"
                                                     src="https://t3.ftcdn.net/jpg/05/62/05/12/360_F_562051283_m5uNbG6GNbSWSv6thCxvegPaprT5o2hw.jpg"
                                                     alt="" style="max-width: 70%;">
@@ -56,10 +57,14 @@
                                             <td>{{category.name}}</td>
                                             <td>{{category.categoryParent != null ? category.categoryParent.name :
                                                 'None'}}</td>
-                                            <td>
-                                                <a [routerLink]="['/category/update', category.id]" class="btn btn-info">Cập
+                                            <td>{{category.isDeleted ? 'Đã xóa' :
+                                                'Đang bán'}}</td>
+                                            <td style="width: 20%;">
+                                                <a [routerLink]="['/category/update', category.id]"
+                                                    class="btn btn-info">Cập
                                                     nhật</a>
-                                                <a class="btn btn-danger ml-3">Xóa</a>
+                                                <a *ngIf="!category.isDeleted" (click)="onDelete(category.id)" class="btn btn-danger ml-3">Xóa</a>
+                                                <a *ngIf="category.isDeleted" (click)="onDelete(category.id)" class="btn btn-danger ml-3">Khôi phục</a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -69,6 +74,7 @@
                                             <th>Ảnh bìa</th>
                                             <th>Tên</th>
                                             <th>Danh mục cha</th>
+                                            <th>Trạng thái</th>
                                             <th>Action</th>
                                         </tr>
                                     </tfoot>

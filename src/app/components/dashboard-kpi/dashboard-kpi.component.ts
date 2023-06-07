@@ -1,16 +1,16 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { StatisticalService } from 'src/app/services/statistical.service';
 import html2canvas from 'html2canvas';
 import jspdf from 'jspdf';
+import { ToastrService } from 'ngx-toastr';
+import { StatisticalService } from 'src/app/services/statistical.service';
 
 @Component({
-  selector: 'app-statistical',
-  templateUrl: './statistical.component.html',
-  styleUrls: ['./statistical.component.css']
+  selector: 'app-dashboard-kpi',
+  templateUrl: './dashboard-kpi.component.html',
+  styleUrls: ['./dashboard-kpi.component.scss']
 })
-export class StatisticalComponent implements OnInit {
+export class DashboardKpiComponent implements OnInit {
 
   scriptSaleByYears!: HTMLScriptElement;
   scriptBestCustomer!: HTMLScriptElement;
@@ -170,6 +170,42 @@ export class StatisticalComponent implements OnInit {
             options: barChartOptions
           })
 
+          // ádadas
+          var areaChartData = {
+            labels: ['Đợt 1', 'Đợt 2', 'Đợt 3', 'Dự đoán', 'Hiện tại'],
+            datasets: [
+              {
+                label: 'Doanh thu (VNĐ)',
+                backgroundColor: 'rgba(60,141,188,0.9)',
+                borderColor: 'rgba(60,141,188,0.8)',
+                pointRadius: false,
+                pointColor: '#3b8bba',
+                pointStrokeColor: 'rgba(60,141,188,1)',
+                pointHighlightFill: '#fff',
+                pointHighlightStroke: 'rgba(60,141,188,1)',
+                data: [3660985, 4269800, 7237000, 10353344, 1995000]
+              },
+            ]
+          }
+
+          //-------------
+          //- BAR CHART -
+          //-------------
+          var barChartCanvas = $('#barChart1').get(0).getContext('2d')
+          var barChartData = $.extend(true, {}, areaChartData)
+
+          var barChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            datasetFill: false
+          }
+
+          new Chart(barChartCanvas, {
+            type: 'bar',
+            data: barChartData,
+            options: barChartOptions
+          })
+
         })
     `;
 
@@ -210,6 +246,58 @@ export class StatisticalComponent implements OnInit {
           //-------------
           // Get context with jQuery - using jQuery's .get() method.
           var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+          var donutData = {
+            labels: ` + JSON.stringify(this.listDataCustomerName) + `,
+            datasets: [
+              {
+                data: ` + JSON.stringify(this.listDataCustomerCount) + `,
+                backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+              }
+            ]
+          }
+          var donutOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+          }
+          //Create pie or douhnut chart
+          // You can switch between pie and douhnut using the method below.
+          new Chart(donutChartCanvas, {
+            type: 'doughnut',
+            data: donutData,
+            options: donutOptions
+          })
+
+          //-------------
+          //- DONUT CHART -
+          //-------------
+          // Get context with jQuery - using jQuery's .get() method.
+          var donutChartCanvas = $('#donutChart1').get(0).getContext('2d')
+          var donutData = {
+            labels: ` + JSON.stringify(this.listDataCustomerName) + `,
+            datasets: [
+              {
+                data: ` + JSON.stringify(this.listDataCustomerCount) + `,
+                backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+              }
+            ]
+          }
+          var donutOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+          }
+          //Create pie or douhnut chart
+          // You can switch between pie and douhnut using the method below.
+          new Chart(donutChartCanvas, {
+            type: 'doughnut',
+            data: donutData,
+            options: donutOptions
+          })
+
+          //-------------
+          //- DONUT CHART -
+          //-------------
+          // Get context with jQuery - using jQuery's .get() method.
+          var donutChartCanvas = $('#donutChart2').get(0).getContext('2d')
           var donutData = {
             labels: ` + JSON.stringify(this.listDataCustomerName) + `,
             datasets: [

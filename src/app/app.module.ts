@@ -31,6 +31,8 @@ import { ProductDetailAddComponent } from './components/product-detail-add/produ
 import { ProductDetailNewComponent } from './components/product-detail-new/product-detail-new.component';
 import { ProductDetailUpdateComponent } from './components/product-detail-update/product-detail-update.component';
 import { ShippingComponent } from './components/shipping/shipping.component';
+import { ProductUpdateComponent } from './components/product-update/product-update.component';
+import { DashboardKpiComponent } from './components/dashboard-kpi/dashboard-kpi.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { ShippingComponent } from './components/shipping/shipping.component';
     ProductDetailAddComponent,
     ProductDetailNewComponent,
     ProductDetailUpdateComponent,
-    ShippingComponent
+    ShippingComponent,
+    ProductUpdateComponent,
+    DashboardKpiComponent
   ],
   imports: [
     BrowserModule,

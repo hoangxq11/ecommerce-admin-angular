@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Renderer2 } from '@angular/core';
+import { data } from 'jquery';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryData } from 'src/app/commons/dto/category';
 import { CategoryService } from 'src/app/services/category.service';
@@ -28,6 +29,16 @@ export class CategoryHomeComponent {
     this.categoryService.getAllCategory().subscribe(data => {
       this.categoryListData = data.data;
       this.generateTableJquery();
+    }, error => {
+      this.toastrService.error('Có lỗi xảy ra vui lòng thử lại sau')
+    })
+  }
+
+  onDelete(categoryId: number){
+    this.categoryService.deleteCategory(categoryId).subscribe(data => {
+        let index = this.categoryListData.findIndex(e => e.id == categoryId)
+        this.categoryListData[index].isDeleted = !this.categoryListData[index].isDeleted;
+        this.toastrService.success('Cập nhật thành công')
     }, error => {
       this.toastrService.error('Có lỗi xảy ra vui lòng thử lại sau')
     })

@@ -16,6 +16,8 @@ import { AccountAddComponent } from './components/account-add/account-add.compon
 import { CategoryAddComponent } from './components/category-add/category-add.component';
 import { ProductDetailAddComponent } from './components/product-detail-add/product-detail-add.component';
 import { ShippingComponent } from './components/shipping/shipping.component';
+import { ProductUpdateComponent } from './components/product-update/product-update.component';
+import { DashboardKpiComponent } from './components/dashboard-kpi/dashboard-kpi.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
@@ -28,12 +30,13 @@ const routes: Routes = [
   { path: 'product', component: ProductHomeComponent, canActivate: [AuthGuard] },
   { path: 'product/new', component: ProductAddComponent, canActivate: [AuthGuard] },
   { path: 'product-detail/:id', component: ProductDetailAddComponent, canActivate: [AuthGuard] },
-  { path: 'product/update/:id', component: ProductAddComponent, canActivate: [AuthGuard] },
+  { path: 'product/update/:id', component: ProductUpdateComponent, canActivate: [AuthGuard] },
   { path: 'order', component: OrderHomeComponent, canActivate: [AuthGuard] },
   { path: 'order/detail/:id', component: OrderDetailComponent, canActivate: [AuthGuard] },
   { path: 'order/update/:id', component: OrderUpdateComponent, canActivate: [AuthGuard] },
   { path: 'statistical', component: StatisticalComponent, canActivate: [AuthGuard] },
   { path: 'shipping-service', component: ShippingComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard-kpi', component: DashboardKpiComponent },
   { path: 'login', component: LoginComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: '**', redirectTo: '404' },

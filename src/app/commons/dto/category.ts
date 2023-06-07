@@ -16,6 +16,7 @@ export class CategoryData {
     categoryParent!: CategoryData;
     name!: string;
     image!: ImageRes;
+    isDeleted!: Boolean;
 }
 
 export class CategoryReq {

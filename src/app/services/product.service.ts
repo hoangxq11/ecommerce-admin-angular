@@ -57,4 +57,16 @@ export class ProductService {
     });
   }
 
+  updateProduct(productId: number, productReq: CreateCustomProductReq): Observable<BaseResponse> {
+    return this.httpClient.put<BaseResponse>(`${this.baseURL}/${productId}`, productReq, {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.authService.getToken()}`
+      })
+    });
+  }
+
+  deletedProduct(productId: number): Observable<BaseResponse> {
+    return this.httpClient.delete<BaseResponse>(`${this.baseURL}/${productId}`);
+  }
+
 }

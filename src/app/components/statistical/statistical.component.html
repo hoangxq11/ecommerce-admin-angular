@@ -9,12 +9,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Biểu đồ thống kê</h1>
+                        <h1 class="m-0">Báo cáo thống kê</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a [routerLink]="['']">Trang chủ</a></li>
-                            <li class="breadcrumb-item active">Biểu đồ thống kê</li>
+                            <li class="breadcrumb-item active">Báo cáo thống kê</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -26,6 +26,26 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Chọn năm: </label>
+                            <div class="input-group date">
+                                <input type="number" [(ngModel)]="year" name="year" placeholder="YYYY" min="2017"
+                                    max="2100" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1 mt-4">
+                        <button (click)="onProcess()" type="submit"
+                            class="mt-2 btn btn-info float-right">Submit</button>
+
+                    </div>
+                    <div class="col-md-2 mt-4">
+                        <button (click)="generatePdf()" type="submit"
+                            class="mt-2 btn btn-info float-left">Export pdf</button>
+                    </div>
+                </div>
+                <div class="row" id="pdfContent">
                     <div class="col-md-6">
 
                         <!-- DONUT CHART -->
@@ -37,14 +57,16 @@
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
                                     </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <!-- <button type="button" class="btn btn-tool" data-card-widget="remove">
                                         <i class="fas fa-times"></i>
-                                    </button>
+                                    </button> -->
                                 </div>
                             </div>
                             <div class="card-body">
-                                <canvas id="donutChart"
-                                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                <div class="chart" id="donutChart-div">
+                                    <canvas id="donutChart"
+                                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                </div>
                             </div>
                             <!-- /.card-body -->
                         </div>
@@ -54,7 +76,7 @@
                     </div>
                     <!-- /.col (LEFT) -->
                     <div class="col-md-6">
-                        
+
 
                         <!-- BAR CHART -->
                         <div class="card card-success">
@@ -65,13 +87,13 @@
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
                                     </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                    <!-- <button type="button" class="btn btn-tool" data-card-widget="remove">
                                         <i class="fas fa-times"></i>
-                                    </button>
+                                    </button> -->
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="chart">
+                                <div class="chart" id="barChart-div">
                                     <canvas id="barChart"
                                         style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                 </div>
@@ -79,12 +101,10 @@
                             <!-- /.card-body -->
                         </div>
                         <!-- /.card -->
-
-                        
-
                     </div>
                     <!-- /.col (RIGHT) -->
                 </div>
+                <a [routerLink]="['/dashboard-kpi']" target="_blank"><h3>Báo cáo chi tiết</h3></a>
                 <!-- /.row -->
             </div><!-- /.container-fluid -->
         </section>

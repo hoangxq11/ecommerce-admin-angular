@@ -55,15 +55,10 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="">Chọn danh mục cha</label>
-                                        <select [(ngModel)]="categoryReq.categoryParentId" name="categoryParent" class="form-control select2bs4"
-                                            style="width: 100%;">
-                                            <option
-                                                [selected]="module == 'CREATE' || categoryData.categoryParent == null">
-                                                None</option>
-                                            <!-- <option [value]="-1">None</option> -->
-                                            <option
-                                                [selected]="categoryData.categoryParent!= null && category.id == categoryData.categoryParent.id"
-                                                [value]="category.id" *ngFor="let category of categoryListData">
+                                        <select [(ngModel)]="categoryReq.categoryParentId" name="categoryParent"
+                                            class="form-control" style="width: 100%;">
+                                            <option [value]="-1">Chọn danh mục cha</option>
+                                            <option [value]="category.id" *ngFor="let category of categoryListData">
                                                 {{category.name}}</option>
                                         </select>
                                     </div>
@@ -71,8 +66,8 @@
                                         <label for="exampleInputFile">Ảnh bìa</label>
                                         <div class="input-group">
                                             <div class="custom-file">
-                                                <input (change)="handleFileInput($event.target)" type="file"
-                                                    name="file" class="custom-file-input" id="exampleInputFile">
+                                                <input (change)="handleFileInput($event.target)" type="file" name="file"
+                                                    class="custom-file-input" id="exampleInputFile">
                                                 <label class="custom-file-label" for="exampleInputFile">Chọn
                                                     file</label>
                                             </div>
@@ -85,7 +80,10 @@
                                 <!-- /.card-body -->
 
                                 <div class="card-footer">
-                                    <button (click)="onCreate()" type="submit" class="btn btn-info">Thêm mới</button>
+                                    <button *ngIf="module == 'CREATE'" (click)="onCreate()" type="submit"
+                                        class="btn btn-info">Thêm mới</button>
+                                    <button *ngIf="module == 'UPDATE'" (click)="onUpdate()" type="submit"
+                                        class="btn btn-info">Cập nhật</button>
                                 </div>
                             </form>
                         </div>

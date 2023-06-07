@@ -31,5 +31,21 @@ export class CategoryService {
       })
     });
   }
+
+  updateCategory(categoryId: number, categoryReq: CategoryReq): Observable<BaseResponse> {
+    return this.httpClient.put<BaseResponse>(`${this.baseURL}/${categoryId}`, categoryReq, {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.authService.getToken()}`
+      })
+    });
+  }
+
+  deleteCategory(categoryId: number): Observable<BaseResponse> {
+    return this.httpClient.delete<BaseResponse>(`${this.baseURL}/${categoryId}`, {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.authService.getToken()}`
+      })
+    });
+  }
   
 }
