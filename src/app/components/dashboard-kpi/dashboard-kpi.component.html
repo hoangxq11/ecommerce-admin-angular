@@ -3,7 +3,7 @@
     <app-sidebar></app-sidebar>
 
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+    <div class="content-wrapper" id="pdfContent">
         <!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid">
@@ -31,7 +31,7 @@
                         <!-- small box -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>150</h3>
+                                <h3>{{billStatusData.done}}</h3>
 
                                 <p>Đơn hàng thành công</p>
                             </div>
@@ -46,7 +46,7 @@
                         <!-- small box -->
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3>53</h3>
+                                <h3>{{billStatusData.shipping}}</h3>
 
                                 <p>Đơn hàng đang giao</p>
                             </div>
@@ -61,7 +61,7 @@
                         <!-- small box -->
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3>44</h3>
+                                <h3>{{billStatusData.pending}}</h3>
 
                                 <p>Đơn hàng đang xử lý</p>
                             </div>
@@ -76,7 +76,7 @@
                         <!-- small box -->
                         <div class="small-box bg-danger">
                             <div class="inner">
-                                <h3>65</h3>
+                                <h3>{{billStatusData.canceled}}</h3>
 
                                 <p>Đơn hàng đã hủy</p>
                             </div>
@@ -90,32 +90,29 @@
                 </div>
                 <!-- /.row -->
                 <!-- Main row -->
-                <div class="row mt-4">
-                    <div class="col-md-4">
-                        <div class="form-group form-inline">
+                <div class="row mt-4" id="no-print">
+                    <div class="col-md-2">
+                        <div class="form-group">
                             <label>Ngày bắt đầu: </label>
-                            <!-- <div class="input-group date"> -->
-                            <input type="date" class="form-control datetimepicker-input" required="required"
-                                name="start_day" />
-                            <!-- </div> -->
+                            <div class="input-group date">
+                                <input type="date" [(ngModel)]="statisticalCriteria.startDate" class="form-control" required="required" name="start_day" />
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group form-inline">
+                    <div class="col-md-2">
+                        <div class="form-group">
                             <label>Ngày kết thúc: </label>
-                            <!-- <div class="input-group date" data-target-input="nearest"> -->
-                            <input type="date" class="form-control datetimepicker-input" required="required"
-                                name="end_day" />
-                            <!-- </div> -->
+                            <div class="input-group date" data-target-input="nearest">
+                                <input type="date" [(ngModel)]="statisticalCriteria.endDate" class="form-control" required="required" name="end_day" />
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-1 mb-4">
+                    <div class="col-md-1 mt-4">
                         <button (click)="onProcess()" type="submit"
-                            class="mt-2 btn btn-info float-right">Submit</button>
-
+                            class="mt-2 btn btn-warning float-right">Submit</button>
                     </div>
-                    <div class="col-md-2 mb-4">
-                        <button (click)="generatePdf()" type="submit" class="mt-2 btn btn-info float-left">Export
+                    <div class="col-md-2 mt-4">
+                        <button (click)="generatePdf()" type="submit" class="mt-2 btn btn-warning float-left">Export
                             pdf</button>
                     </div>
                 </div>
@@ -137,8 +134,8 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="chart" id="donutChart-div">
-                                    <canvas id="donutChart"
+                                <div class="chart" id="donutChart-best-customer-div">
+                                    <canvas id="donutChart-best-customer"
                                         style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                 </div>
                             </div>
@@ -155,7 +152,7 @@
                         <!-- BAR CHART -->
                         <div class="card card-success">
                             <div class="card-header">
-                                <h3 class="card-title">Doanh số bán hàng</h3>
+                                <h3 class="card-title">Sản phẩm bán chạy</h3>
 
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -167,8 +164,8 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="chart" id="barChart-div">
-                                    <canvas id="barChart"
+                                <div class="chart" id="barChart-best-product-div">
+                                    <canvas id="barChart-best-product"
                                         style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                 </div>
                             </div>
@@ -185,7 +182,7 @@
                         <!-- DONUT CHART -->
                         <div class="card card-info">
                             <div class="card-header">
-                                <h3 class="card-title">Sản phẩm bán chạy</h3>
+                                <h3 class="card-title">Khách hàng hủy đơn hàng nhiều</h3>
 
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -197,8 +194,8 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="chart" id="donutChart-div">
-                                    <canvas id="donutChart1"
+                                <div class="chart" id="donutChart-worst-customer-div">
+                                    <canvas id="donutChart-worst-customer"
                                         style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                 </div>
                             </div>
@@ -210,8 +207,8 @@
                     </div>
                     <div class="col-md-6">
 
-                        <!-- DONUT CHART -->
-                        <div class="card card-danger">
+                        <!-- BAR CHART -->
+                        <div class="card card-success">
                             <div class="card-header">
                                 <h3 class="card-title">Sản phẩm bị hủy nhiều</h3>
 
@@ -225,8 +222,8 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="chart" id="donutChart-div">
-                                    <canvas id="donutChart2"
+                                <div class="chart" id="barChart-worst-product-div">
+                                    <canvas id="barChart-worst-product"
                                         style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                 </div>
                             </div>
@@ -256,8 +253,8 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="chart" id="barChart-div">
-                                    <canvas id="barChart1"
+                                <div class="chart" id="barChart-kpi-div">
+                                    <canvas id="barChart-kpi"
                                         style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                 </div>
                             </div>
@@ -286,7 +283,8 @@
                                         <!-- todo text -->
                                         <span class="text">Tăng cường marketing sản phẩm</span>
                                         <!-- Emphasis label -->
-                                        <small class="badge badge-info"><i class="far fa-clock"></i> tháng kế tiếp</small>
+                                        <small class="badge badge-info"><i class="far fa-clock"></i> tháng kế
+                                            tiếp</small>
                                         <!-- General tools such as edit or delete-->
                                         <div class="tools">
                                             <i class="fas fa-edit"></i>
@@ -302,7 +300,8 @@
                                         <!-- todo text -->
                                         <span class="text">Giảm giá các sản phầm tồn kho</span>
                                         <!-- Emphasis label -->
-                                        <small class="badge badge-info"><i class="far fa-clock"></i> tháng kế tiếp</small>
+                                        <small class="badge badge-info"><i class="far fa-clock"></i> tháng kế
+                                            tiếp</small>
                                         <!-- General tools such as edit or delete-->
                                         <div class="tools">
                                             <i class="fas fa-edit"></i>
